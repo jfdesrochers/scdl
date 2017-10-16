@@ -1,0 +1,22 @@
+{
+  "name": "soundclouddl",
+  "version": "1.0.0",
+  "description": "SoundCloud DL by J-F Desrochers",
+  "main": "main.js",
+  "repository": "github:/jfdesrochers/scdl",
+  "scripts": {
+    "package-win": "electron-packager . --overwrite --platform=win32 --arch=x64 --icon=Icon.ico --prune=true --out=../../Desktop/soundclouddl-dist --win32metadata.CompanyName=\"Jean-Francois Desrochers\" --win32metadata.FileDescription=\"SoundCloud DL par Jean-Francois Desrochers\" --win32metadata.ProductName=\"SoundCloud DL par Jean-Francois Desrochers\" --electron-version=1.4.15",
+    "package-osx": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=Icon.icns --prune=true --out=../../Desktop/soundclouddl-dist --electron-version=1.4.15",
+    "start": "electron ."
+  },
+  "author": "Jean-Francois Desrochers",
+  "license": "ISC",
+  "dependencies": {
+    "electron-config": "^1.0.0",
+    "lodash": "^4.17.4",
+    "mithril": "^1.1.1",
+    "node-fetch": "^1.6.3",
+    "q": "^1.5.0"
+  },
+  "devDependencies": {}
+}
