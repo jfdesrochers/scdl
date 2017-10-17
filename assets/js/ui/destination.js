@@ -13,7 +13,7 @@ Destination.oninit = function (vnode) {
     let self = this
     bindAnimations(Destination, vnode.attrs.direction)
     self.loaded = false
-    self.currentDestination = conf.get('destination') || ''
+    self.currentDestination = conf.get('destination', '')
     self.loaded = true
 
     self.goBack = (e) => {

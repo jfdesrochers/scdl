@@ -16,7 +16,9 @@
     "lodash": "^4.17.4",
     "mithril": "^1.1.1",
     "node-fetch": "^1.6.3",
-    "q": "^1.5.0"
+    "node-id3": "git+https://github.com/Zazama/node-id3.git",
+    "q": "^1.5.0",
+    "sanitize-filename": "^1.6.1"
   },
   "devDependencies": {}
 }

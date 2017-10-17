@@ -20,10 +20,10 @@ PreDownload.oninit = function (vnode) {
         self.error = 'Vous n\'avez pas sélectionné toutes les informations nécessaires. SVP retourner les choisir avant de continuer.'
         self.loaded = true
     } else {
-        self.trackcache = conf.get(appState.selectedPlaylist) || []
+        self.trackcache = conf.get(String(appState.selectedPlaylist), [])
         getPlaylistInfo(appState.selectedPlaylist).then((data) => {
             self.tracksToDownload = data.tracks.filter((trk) => {
-                return !(trk.id in self.trackcache)
+                return self.trackcache.indexOf(trk.id) == -1
             }).map((trk) => {
                 return {
                     id: trk.id,
@@ -38,6 +38,8 @@ PreDownload.oninit = function (vnode) {
             self.loaded = true
         }).catch((err) => {
             console.error(err)
+            self.error = `Une erreur est survenue (${err}).`
+            m.redraw()
             self.loaded = true
         })
     }
@@ -68,7 +70,7 @@ PreDownload.view = function () {
             ]),
             m('div.btn-group.btn-group-justified.mt10', [
                 m('div.btn-group',  m('button.btn.btn-default', {onclick: self.goBack}, "< Retour")),
-                m('div.btn-group', m('button.btn.btn-primary', {onclick: self.doContinue}, "Continuer >"))
+                (self.error || self.tracksToDownload.length == 0) ? '' : m('div.btn-group', m('button.btn.btn-primary', {onclick: self.doContinue}, "Continuer >"))
             ])
         ]) : m('div.text-center', [
             m('h3.pulsing', "Chargement...")

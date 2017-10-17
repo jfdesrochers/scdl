@@ -12,7 +12,7 @@ Playlists.oninit = function (vnode) {
     let self = this
     bindAnimations(Playlists, vnode.attrs.direction)
     self.loaded = false
-    self.playlists = conf.get('playlists') || []
+    self.playlists = conf.get('playlists', [])
     self.loaded = true
     self.modify = false
     
@@ -35,7 +35,7 @@ Playlists.oninit = function (vnode) {
         return (e) => {
             e.preventDefault()
             e.stopPropagation()
-            conf.delete(id)
+            conf.delete(String(id))
             alert(`Cache vidé pour ${id}.`)
         }
     }
@@ -45,7 +45,7 @@ Playlists.oninit = function (vnode) {
             e.stopPropagation()
             self.playlists = self.playlists.filter(item => item.id != id)
             conf.set('playlists', self.playlists)
-            conf.delete(id)
+            conf.delete(String(id))
         }
     }
 }

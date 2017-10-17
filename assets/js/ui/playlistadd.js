@@ -12,10 +12,10 @@ PlaylistAdd.oninit = function (vnode) {
     let self = this
     bindAnimations(PlaylistAdd, vnode.attrs.direction)
     self.loaded = false
-    self.playlists = conf.get('playlists') || []
+    self.playlists = conf.get('playlists', [])
     self.loaded = true
     self.error = ''
-    self.userurl = conf.get('scurl') || ''
+    self.userurl = conf.get('scurl', '')
 
     self.cancelAdd = (e) => {
         e.preventDefault()
@@ -43,6 +43,7 @@ PlaylistAdd.oninit = function (vnode) {
             }).catch((err) => {
                 console.error(err)
                 self.loaded = true
+                self.error = `Une erreur est survenue. Vérifiez que vous avez entré l'url du bon utilisateur. (${err})`
                 m.redraw()
             })
         }
