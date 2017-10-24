@@ -24,6 +24,7 @@ Download.oninit = function (vnode) {
         artist: '',
         album: '',
         title: '',
+        id: '',
         songno: 0,
         songtotal: 0
     }
@@ -49,6 +50,7 @@ Download.oninit = function (vnode) {
                 self.songInfo.artist = track.artist
                 self.songInfo.album = track.album
                 self.songInfo.title = track.title
+                self.songInfo.id = track.id
                 self.setStatus('Téléchargement de la pochette d\'album...')
                 m.redraw()
                 let artbuf = null
@@ -88,11 +90,13 @@ Download.oninit = function (vnode) {
             self.currentProgress = 100
             self.allDone = true
             self.setStatus('Terminé.')
+            document.getElementById('victoryding').play()
         }).catch((err) => {
             console.error(err)
             self.error = `Une erreur est survenue (${err}).`
             self.currentProgress = 100
             self.setStatus('Une erreur est survenue.')
+            document.getElementById('errording').play()
         })
     }
 
@@ -111,6 +115,14 @@ Download.oninit = function (vnode) {
         self.cancelling = true
         m.redraw()
     }
+
+    self.cancelSong = (songID) => {
+        return (e) => {
+            e.preventDefault()
+            self.trackcache.push(songID)
+            conf.set(String(appState.selectedPlaylist), self.trackcache)
+        }
+    }
 }
 
 Download.view = function () {
@@ -124,6 +136,7 @@ Download.view = function () {
             m('div', self.songInfo.title),
             m('div', self.songInfo.artist),
             m('div', self.songInfo.album),
+            (self.error && !self.cancelling) ? (self.trackcache.indexOf(self.songInfo.id) > -1) ? m('div.text-danger', 'OK. Cette chanson ne sera pas téléchargée.') : m('a.text-danger[href="#"]', {onclick: self.cancelSong(self.songInfo.id)},'Ne pas retenter cette chanson...') : '',
             m('div.mt10', self.currentStatus),
             m('div.progress', m(`div.progress-bar${self.allDone ? '.progress-bar-success' : self.error ? '.progress-bar-danger' : '.progress-bar-striped.active'}`, {style: `width: ${self.currentProgress}%`})),
             m('div.btn-group.btn-group-justified.mt10', [
