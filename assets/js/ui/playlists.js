@@ -28,7 +28,13 @@ Playlists.oninit = function (vnode) {
         return (e) => {
             e.preventDefault()
             appState.selectedPlaylist = id
-            Playlists.changePage('/destination', 'next')
+            const dest = conf.get('destination', '')
+            if (dest) {
+                appState.selectedDestination = dest
+                Playlists.changePage('/predownload', 'next')
+            } else {
+                Playlists.changePage('/destination', 'next')
+            }
         }
     }
     self.goEmpty = (id) => {

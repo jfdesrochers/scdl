@@ -46,6 +46,11 @@ PreDownload.oninit = function (vnode) {
     
     self.goBack = (e) => {
         e.preventDefault()
+        PreDownload.changePage('/playlists', 'previous')
+    }
+
+    self.changeDestination = (e) => {
+        e.preventDefault()
         PreDownload.changePage('/destination', 'previous')
     }
 
@@ -65,7 +70,7 @@ PreDownload.view = function () {
             self.error ? m('div.alert.alert-danger', self.error) : '',
             m('ul.text-left', [
                 m('li', `Identifiant de la liste: ${appState.selectedPlaylist}`),
-                m('li', `Emplacement de destination: ${appState.selectedDestination}`),
+                m('li', [`Emplacement de destination: ${appState.selectedDestination}`, m('a[href=""]', {onclick: self.changeDestination}, ' Modifier...')]),
                 m('li', `Nombre de chansons à télécharger: ${self.tracksToDownload.length}`)
             ]),
             m('div.btn-group.btn-group-justified.mt10', [
